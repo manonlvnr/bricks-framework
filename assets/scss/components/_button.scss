@@ -3,100 +3,241 @@
 // -----------------------------------------------------------------------------
 
 .btn {
+  --btn-min-height: 3.6rem;
   --btn-padding-y: var(--space-xs);
-  --btn-padding-x: var(--space-md);
+  --btn-padding-x: var(--space-sm);
   --btn-color: var(--color-bg);
-  --btn-font-weight: var(--font-normal);
+  --btn-font-weight: 500;
   --btn-font-size: inherit;
-  --btn-background-color: var(--color-primary);
+  --btn-font-family: var(--font-heading);
+  --btn-background-color: var(--color-primary-500);
   --btn-border-color: var(--btn-background-color);
-  --btn-border-radius: var(--radius-sm);
+  --btn-border-radius: var(--radius-xs);
 
   display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  min-height: var(--btn-min-height);
+  gap: var(--space-xs);
   padding: var(--btn-padding-y) var(--btn-padding-x);
   color: var(--btn-color);
   font-weight: var(--btn-font-weight);
   font-size: var(--btn-font-size);
-  font-family: inherit;
+  font-family: var(--btn-font-family);
   line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-wider);
+  text-align: center;
   text-decoration: none;
-  vertical-align: top;
+  text-transform: uppercase;
+  vertical-align: baseline;
+  word-break: break-word;
   background: var(--btn-background-color);
   border: 1px solid var(--btn-border-color);
   border-radius: var(--btn-border-radius);
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  transition-duration: 0.2s, 0.3s, 0.3s;
-  transition-property: color, background-color, border-color;
+  transition: all .2s ease-in-out;
+  transition-property: color, background-color, border-color, box-shadow;
+  transition-duration: .2s, .3s, .3s;
 
-  &:focus,
   &:hover {
-    --btn-background-color: var(--color-primary-dark);
+    --btn-background-color: var(--color-primary-700);
+    --btn-border-color: var(--color-primary-700);
 
     color: var(--btn-color);
   }
 
-  &:active {
-    --btn-border-color: var(--color-primary-light);
+  &:focus-visible {
+    box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-primary-500);
+    outline: 0;
+  }
 
+  &:active {
     transform: translateY(1px);
   }
 
   &[disabled] {
-    opacity: 0.65;
+    opacity: .5;
     pointer-events: none;
   }
 
   &.--loading {
     pointer-events: none;
 
-    &::after {
+    &::before {
+      content: "";
       width: 1.1em;
       height: 1.1em;
-      margin: 0 0 0 var(--space-xs);
-      border: 0.2em solid var(--btn-color);
+      border: .2em solid var(--btn-color);
       border-top-color: var(--btn-background-color);
       border-radius: var(--radius-circle);
       animation: spin 1s ease-in-out infinite;
-      content: "";
     }
+
+    svg {
+      display: none;
+    }
+  }
+
+  &.--open {
+    svg {
+      transform: rotate(90deg);
+    }
+  }
+
+  svg {
+    width: 2.4rem;
+    height: 2.4rem;
+    pointer-events: none;
+    transition: transform .2s ease-in-out;
+  }
+
+  table td > &:not([class*="btn--"]),
+  table td > * > &:not([class*="btn--"]) {
+    @extend .btn--sm;
   }
 }
 
-// Reversed variant
+// Color variants
 // -----------------------------------------------------------------------------
 
-.btn--reversed {
-  --btn-color: var(--color-primary);
-  --btn-background-color: var(--color-bg);
-  --btn-border-color: var(--color-primary);
+.btn--ghost {
+  --btn-color: var(--color-primary-500);
+  --btn-background-color: transparent;
+  --btn-border-color: var(--color-contrast-300);
 
-  &:focus,
   &:hover {
-    --btn-color: var(--color-primary-dark);
-    --btn-background-color: var(--color-bg);
-    --btn-border-color: var(--color-primary-dark);
+    --btn-color: var(--color-primary-700);
+    --btn-background-color: var(--color-contrast-50);
+    --btn-border-color: var(--color-primary-700);
   }
+}
+
+.btn--success {
+  --btn-color: var(--color-bg);
+  --btn-background-color: var(--color-success-500);
+  --btn-border-color: var(--color-success-500);
+
+  &:hover {
+    --btn-background-color: var(--color-success-600);
+    --btn-border-color: var(--color-success-600);
+  }
+}
+
+.btn--danger {
+  --btn-color: var(--color-bg);
+  --btn-background-color: var(--color-danger-500);
+  --btn-border-color: var(--color-danger-500);
+
+  &:hover {
+    --btn-background-color: var(--color-danger-600);
+    --btn-border-color: var(--color-danger-600);
+  }
+}
+
+.btn--reversed {
+  color: var(--btn-background-color);
+  background-color: var(--btn-color);
+  border-color: var(--btn-background-color);
+
+  &:hover {
+    color: var(--btn-color);
+    background-color: var(--btn-background-color);
+  }
+}
+
+// Size variants
+// -----------------------------------------------------------------------------
+
+.btn--sm {
+  --btn-min-height: 3.2rem;
+  --btn-padding-y: var(--space-xxs);
+  --btn-padding-x: var(--space-sm);
+  --btn-font-size: var(--text-xxs);
+
+  svg {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+}
+
+.btn--lg {
+  --btn-min-height: 4.8rem;
 }
 
 // Link variant
 // -----------------------------------------------------------------------------
 
 .btn--link {
-  text-decoration: underline;
+  --btn-min-height: inherit;
+  --btn-padding-y: var(--space-xxs);
+  --btn-padding-x: var(--space-xxs);
+  --btn-color: currentColor;
+  --btn-font-size: var(--text-xxxs);
+  --btn-background-color: transparent;
+  --btn-border-color: transparent;
+
+  gap: var(--space-xxs);
+  line-height: var(--leading-normal);
 
   &,
-  &:focus,
   &:hover {
-    --btn-color: var(--color-primary);
-    --btn-background-color: transparent;
-    --btn-border-color: transparent;
+    border-color: transparent;
   }
+
+  &:hover {
+    --btn-background-color: var(--color-contrast-200);
+  }
+}
+
+// Link variant
+// -----------------------------------------------------------------------------
+
+.btn--text {
+  @extend .btn--link;
+
+  --btn-padding-y: 0;
+  --btn-padding-x: 0;
 
   &:focus,
   &:hover {
-    --btn-color: var(--color-primary-dark);
+    --btn-color: var(--color-primary-500);
+    --btn-background-color: transparent;
+  }
+}
+
+// Transition variant
+// -----------------------------------------------------------------------------
+
+.btn--transition {
+  svg {
+    max-width: 0;
+    transition: max-width .2s ease-in-out;
+  }
+
+  &:focus-visible,
+  &:hover {
+    svg {
+      max-width: 2.4rem;
+    }
+  }
+}
+
+// Extended variant
+// -----------------------------------------------------------------------------
+
+.btn--extended {
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+  }
+
+  &:active {
+    transform: inherit;
   }
 }
